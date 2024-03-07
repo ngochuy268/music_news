@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -21,9 +22,24 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
-    </head>
 
+        <?php
+            $user = 'root';
+            $pass = '';
+            $db_name = 'news';
+            
+            // Kết nối vào cơ sở dữ liệu
+            $conn = new mysqli('localhost', $user, $pass, $db_name);
+
+            // Kiểm tra kết nối
+            if ($conn->connect_error) {
+                die("Kết nối thất bại: " . $conn->connect_error);
+            }
+        ?>
+        
+    </head>
     <body>
+        
         <!-- Top Bar Start -->
         <div class="top-bar">
             <div class="container">
@@ -181,32 +197,31 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
-                        <h2>Sports</h2>
+                        <h2>Pops</h2>
                         <div class="row cn-slider">
-                            <div class="col-md-6">
-                                <div class="cn-img">
-                                    <img src="img/news-350x223-1.jpg" />
-                                    <div class="cn-title">
-                                        <a href="">Lorem ipsum dolor sit</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="cn-img">
-                                    <img src="img/news-350x223-2.jpg" />
-                                    <div class="cn-title">
-                                        <a href="">Lorem ipsum dolor sit</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="cn-img">
-                                    <img src="img/news-350x223-3.jpg" />
-                                    <div class="cn-title">
-                                        <a href="">Lorem ipsum dolor sit</a>
-                                    </div>
-                                </div>
-                            </div>
+                            <?php 
+                              
+                            // Thực hiện truy vấn SQL
+                            $sql = "SELECT * FROM pop_music";
+                            $result = $conn->query($sql);
+
+                            if ($result->num_rows > 0) { 
+                                while($row = $result->fetch_assoc()) {
+                                    echo 
+                                        '<div class="col-md-6">
+                                            <div class="cn-img">
+                                                <img src="img/news-350x223-1.jpg" />
+                                                <div class="cn-title"> ';
+                                    echo           '<a href="">' . $row['pop_name'] . "</a>";
+                                    
+                                    echo        '</div>
+                                            </div>
+                                        </div>';
+                                }
+                            } else { 
+                                echo "Không có kết quả.";
+                            }
+                            ?>
                         </div>
                     </div>
                     <div class="col-md-6">
